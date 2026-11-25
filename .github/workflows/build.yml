@@ -17,11 +17,13 @@ jobs:
         run: unzip -q ./*.zip -d app
       - name: Tao du an Android
         working-directory: app
-        run: |
+        run: |npm install
+npx cap add android
+python3 native/setup.py
+npx cap sync android
           npm install
           npx cap add android
-          sed -i 's#<application#<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>\n    <application#' android/app/src/main/AndroidManifest.xml
-          npx cap sync android
+          python3 native/setup.py
       - name: Build APK
         working-directory: app/android
         run: ./gradlew assembleDebug
